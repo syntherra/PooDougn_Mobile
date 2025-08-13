@@ -5,6 +5,8 @@ workflows:
     instance_type: mac_mini_m1
 
     environment:
+      groups:
+        - expo_credentials
       vars:
         PACKAGE_NAME: "com.poodougn.mobile"
       node: 18.17.0
@@ -35,6 +37,8 @@ workflows:
     max_build_duration: 120
     instance_type: mac_mini_m1
     environment:
+      groups:
+        - expo_credentials
       vars:
         BUNDLE_ID: "com.poodougn.mobile"
       node: 18.17.0
