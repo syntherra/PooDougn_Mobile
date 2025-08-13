@@ -5,13 +5,12 @@ import { getFirestore } from 'firebase/firestore';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v9-compat and later, measurementId is optional
 const firebaseConfig = {
-  // Replace with your Firebase project configuration
-  apiKey: "your-api-key",
-  authDomain: "your-project-id.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project-id.appspot.com",
-  messagingSenderId: "your-sender-id",
-  appId: "your-app-id"
+  apiKey: "AIzaSyCKgoF7ASPB9hIpCDaLAXaHSLhjFGdFnK4",
+  authDomain: "poodoug-mobile.firebaseapp.com",
+  projectId: "poodoug-mobile",
+  storageBucket: "poodoug-mobile.firebasestorage.app",
+  messagingSenderId: "171546770188",
+  appId: "1:171546770188:android:2b9c6f6862c022e8cba729"
 };
 
 // Initialize Firebase
