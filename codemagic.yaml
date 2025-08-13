@@ -23,7 +23,10 @@ workflows:
           cd PooDougn_Mobile
           eas build --platform android --profile preview --non-interactive
     artifacts:
-      - "*.apk"
+      - "PooDougn_Mobile/**/*.apk"
+      - "PooDougn_Mobile/**/*.aab"
+      - "~/.eas/builds/**/*.apk"
+      - "~/.eas/builds/**/*.aab"
     publishing:
       email:
         recipients:
