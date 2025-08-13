@@ -26,6 +26,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f038dc53-31ea-4e91-bcfe-fcf529989694"
+      }
+    },
+    "owner": "syntherra"
   }
 }
