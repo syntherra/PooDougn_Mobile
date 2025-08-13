@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "PooDougn_Mobile",
-    "slug": "PooDougn_Mobile",
+    "name": "PooDougn Mobile App",
+    "slug": "poodougn-mobile-2024",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,11 +13,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "bundleIdentifier": "com.poodougn.mobile",
+      "bundleIdentifier": "com.poodougn.mobile.app2024",
       "supportsTablet": true
     },
     "android": {
-      "package": "com.poodougn.mobile",
+      "package": "com.poodougn.mobile.app2024",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
