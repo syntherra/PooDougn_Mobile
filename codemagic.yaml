@@ -17,10 +17,12 @@ workflows:
     scripts:
       - name: Install npm dependencies
         script: |
+          cd PooDougn_Mobile
           npm install
       - name: Set Android SDK location
         script: |
-          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
+          cd PooDougn_Mobile
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/PooDougn_Mobile/android/local.properties"
       - name: Build Android release
         script: |
           LATEST_GOOGLE_PLAY_BUILD_NUMBER=$(google-play get-latest-build-number --package-name "$PACKAGE_NAME")
@@ -30,12 +32,12 @@ workflows:
           else
               export NEW_BUILD_NUMBER=$(($LATEST_GOOGLE_PLAY_BUILD_NUMBER + 1))
           fi
-          cd android
+          cd PooDougn_Mobile/android
           ./gradlew bundleRelease
     artifacts:
-      - android/app/build/outputs/**/*.aab
-      - android/app/build/outputs/**/mapping.txt
-      - android/app/build/outputs/**/*.apk
+      - PooDougn_Mobile/android/app/build/outputs/**/*.aab
+      - PooDougn_Mobile/android/app/build/outputs/**/mapping.txt
+      - PooDougn_Mobile/android/app/build/outputs/**/*.apk
     publishing:
       email:
         recipients:
@@ -71,10 +73,11 @@ workflows:
     scripts:
       - name: Install npm dependencies
         script: |
+          cd PooDougn_Mobile
           npm install
       - name: Install CocoaPods dependencies
         script: |
-          cd ios && pod install
+          cd PooDougn_Mobile/ios && pod install
       - name: Set up code signing settings on Xcode project
         script: |
           xcode-project use-profiles
@@ -86,7 +89,7 @@ workflows:
       - name: Build ipa for distribution
         script: |
           xcode-project build-ipa \
-            --workspace "$CM_BUILD_DIR/ios/$XCODE_WORKSPACE" \
+            --workspace "$CM_BUILD_DIR/PooDougn_Mobile/ios/$XCODE_WORKSPACE" \
             --scheme "$XCODE_SCHEME"
     artifacts:
       - build/ios/ipa/*.ipa
