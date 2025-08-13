@@ -1,40 +1,27 @@
 workflows:
-  react-native-android:
-    name: React Native Android
+  expo-android:
+    name: Expo Android Build
     max_build_duration: 120
     instance_type: mac_mini_m1
 
     environment:
-      groups:
-        - google_play
       vars:
         PACKAGE_NAME: "com.poodougn.mobile"
-        GOOGLE_PLAY_TRACK: alpha
       node: 18.17.0
     scripts:
       - name: Install npm dependencies
         script: |
           cd PooDougn_Mobile
           npm install
-      - name: Set Android SDK location
+      - name: Install EAS CLI
+        script: |
+          npm install -g eas-cli
+      - name: Build Android APK with EAS
         script: |
           cd PooDougn_Mobile
-          echo "sdk.dir=$ANDROID_SDK_ROOT" > "android/local.properties"
-      - name: Build Android release
-        script: |
-          LATEST_GOOGLE_PLAY_BUILD_NUMBER=$(google-play get-latest-build-number --package-name "$PACKAGE_NAME")
-          if [ -z $LATEST_GOOGLE_PLAY_BUILD_NUMBER ]; then
-              # fallback in case no build number was found from google play
-              export NEW_BUILD_NUMBER=$BUILD_NUMBER
-          else
-              export NEW_BUILD_NUMBER=$(($LATEST_GOOGLE_PLAY_BUILD_NUMBER + 1))
-          fi
-          cd PooDougn_Mobile/android
-          ./gradlew bundleRelease
+          eas build --platform android --profile preview --non-interactive
     artifacts:
-      - PooDougn_Mobile/android/app/build/outputs/**/*.aab
-      - PooDougn_Mobile/android/app/build/outputs/**/mapping.txt
-      - PooDougn_Mobile/android/app/build/outputs/**/*.apk
+      - "*.apk"
     publishing:
       email:
         recipients:
@@ -43,50 +30,28 @@ workflows:
           success: true
           failure: false
 
-  react-native-ios:
-    name: React Native iOS
+  expo-ios:
+    name: Expo iOS Build
     max_build_duration: 120
     instance_type: mac_mini_m1
     environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.poodougn.mobile
-      groups:
-        - app_store
       vars:
         BUNDLE_ID: "com.poodougn.mobile"
-        XCODE_WORKSPACE: "PooDougn_Mobile.xcworkspace"
-        XCODE_SCHEME: "PooDougn_Mobile"
-        APP_STORE_APPLE_ID: 1555555551
       node: 18.17.0
-      xcode: latest
-      cocoapods: default
     scripts:
       - name: Install npm dependencies
         script: |
           cd PooDougn_Mobile
           npm install
-      - name: Install CocoaPods dependencies
+      - name: Install EAS CLI
         script: |
-          cd PooDougn_Mobile/ios && pod install
-      - name: Set up code signing settings on Xcode project
+          npm install -g eas-cli
+      - name: Build iOS IPA with EAS
         script: |
-          xcode-project use-profiles
-      - name: Increment build number
-        script: |
-          cd $CM_BUILD_DIR
-          LATEST_BUILD_NUMBER=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
-          agvtool new-version -all $(($LATEST_BUILD_NUMBER + 1))
-      - name: Build ipa for distribution
-        script: |
-          xcode-project build-ipa \
-            --workspace "$CM_BUILD_DIR/PooDougn_Mobile/ios/$XCODE_WORKSPACE" \
-            --scheme "$XCODE_SCHEME"
+          cd PooDougn_Mobile
+          eas build --platform ios --profile preview --non-interactive
     artifacts:
-      - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+      - "*.ipa"
     publishing:
       email:
         recipients:
